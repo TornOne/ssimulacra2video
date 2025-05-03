@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ssimulacra2video", "ssimulacra2video.csproj", "{BF6650B6-2608-427A-9C9D-216FE8A733B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF6650B6-2608-427A-9C9D-216FE8A733B2}.Debug|x64.ActiveCfg = Debug|x64
+		{BF6650B6-2608-427A-9C9D-216FE8A733B2}.Debug|x64.Build.0 = Debug|x64
+		{BF6650B6-2608-427A-9C9D-216FE8A733B2}.Release|x64.ActiveCfg = Release|x64
+		{BF6650B6-2608-427A-9C9D-216FE8A733B2}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86F3F7FC-F23C-4D9A-A68F-E81495FB8D50}
+	EndGlobalSection
+EndGlobal
