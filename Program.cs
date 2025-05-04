@@ -12,8 +12,8 @@ static class Program {
 		bool verbose = Array.IndexOf(args, "-s") < 0;
 		int skip = ParseArg(args, "-n", 1);
 
-		Ffmpeg orig = new(args[0]);
-		Ffmpeg dist = new(args[1]);
+		Ffmpeg orig = new(args[0], skip);
+		Ffmpeg dist = new(args[1], skip);
 
 		Ssimu2Bridge[] bridges = new Ssimu2Bridge[threads];
 		Task<double>[] tasks = new Task<double>[threads];
@@ -22,7 +22,6 @@ static class Program {
 		Stopwatch timer = Stopwatch.StartNew();
 		int frameCounter = 0;
 		double totalScore = 0;
-		int leftoverFrames = -1;
 		while (true) {
 			int i = Task.WaitAny(tasks);
 			if (bridges[i] is null) {
@@ -37,15 +36,9 @@ static class Program {
 				}
 			}
 
-			for (int n = 0; n < skip; n++) {
-				if (!bridges[i].ReadFrame()) {
-					frameCounter--;
-					tasks[i] = Task.FromResult(0d);
-					leftoverFrames = n;
-					break;
-				}
-			}
-			if (leftoverFrames >= 0) {
+			if (!bridges[i].ReadFrame()) {
+				frameCounter--;
+				tasks[i] = Task.FromResult(0d);
 				break;
 			}
 			tasks[i] = Task.Run(bridges[i].ProcessFrame);
@@ -64,7 +57,7 @@ static class Program {
 		}
 
 		if (verbose) {
-			Console.WriteLine($"Frame = {frameCounter * skip + leftoverFrames}, Speed = {(frameCounter * skip + leftoverFrames) / timer.Elapsed.TotalSeconds:0.000}fps, Average similarity = {totalScore / frameCounter:0.000}");
+			Console.WriteLine($"Frame = {frameCounter * skip}, Speed = {(frameCounter * skip) / timer.Elapsed.TotalSeconds:0.000}fps, Average similarity = {totalScore / frameCounter:0.000}");
 			if (unusedThreads > 0) {
 				Console.WriteLine($"{unusedThreads} of {threads} threads not used. Limited by video decode speed or pipe throughput. Consider lowering the number of threads or the amount of frames skipped.");
 			}

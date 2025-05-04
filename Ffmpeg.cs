@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
@@ -6,10 +7,16 @@ class Ffmpeg {
 	public readonly Process process;
 	public readonly Stream stream;
 
-	public Ffmpeg(string path) {
+	public Ffmpeg(string path, int skip) {
 		GetVideoSize(path);
 
-		ProcessStartInfo startInfo = new("ffmpeg", ["-hide_banner", "-loglevel", "error", "-i", path, "-map", "v:0", "-pix_fmt", "gbrpf32le", "-f", "rawvideo", "-"]) {
+		List<string> args = ["-hide_banner", "-loglevel", "error", "-i", path, "-map", "v:0"];
+		if (skip > 1) {
+			args.Add("-vf");
+			args.Add($"fps=source_fps/{skip}");
+		}
+		args.AddRange(["-pix_fmt", "gbrpf32le", "-f", "rawvideo", "-"]);
+		ProcessStartInfo startInfo = new("ffmpeg", args) {
 			RedirectStandardOutput = true
 		};
 		process = Process.Start(startInfo)!;
