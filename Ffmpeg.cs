@@ -24,7 +24,7 @@ class Ffmpeg {
 	}
 
 	static void GetVideoSize(string path) {
-		if (Ssimu2Bridge.planeSize > 0) {
+		if (Ssimu2Bridge.ffmpegStride > 0) {
 			return;
 		}
 
@@ -53,7 +53,7 @@ class Ffmpeg {
 			Ssimu2Bridge.height = GetInt("Enter video height in pixels:");
 		}
 
-		Ssimu2Bridge.planeSize = Ssimu2Bridge.width * Ssimu2Bridge.height * 4;
+		Ssimu2Bridge.ffmpegStride = Ssimu2Bridge.width * 4;
 	}
 
 	static int GetInt(string prompt) {

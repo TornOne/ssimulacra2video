@@ -37,13 +37,14 @@ extern "C" __declspec(dllexport) void** initialize(uint32_t width, uint32_t heig
   orig->SetFromImage(std::move(orig_image), jxl::ColorEncoding::SRGB());
   dist->SetFromImage(std::move(dist_image), jxl::ColorEncoding::SRGB());
 
-  void** ret = new void*[8];
+  void** ret = new void*[9];
   for (size_t i = 0; i < 3; i++) {
     ret[i * 2] = orig_image.PlaneRow(i, 0);
     ret[i * 2 + 1] = dist_image.PlaneRow(i, 0);
   }
   ret[6] = orig;
   ret[7] = dist;
+  ret[8] = (void*)orig_image.bytes_per_row();
 
   return ret;
 }
