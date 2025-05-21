@@ -10,9 +10,8 @@ class Ffmpeg {
 	public Ffmpeg(string path, int skip) {
 		GetVideoSize(path);
 
-		List<string> args = ["-hide_banner", "-loglevel", "error", "-i", path, "-map", "v:0"];
+		List<string> args = ["-hide_banner", "-loglevel", "error", "-i", path, "-map", "v:0", "-vf", "setrange=full" ];
 		if (skip > 1) {
-			args.Add("-vf");
 			args.Add($"fps=source_fps/{skip}");
 		}
 		args.AddRange(["-pix_fmt", "gbrpf32le", "-f", "rawvideo", "-"]);
