@@ -28,9 +28,8 @@ class Ffmpeg {
 		}
 
 		try {
-			ProcessStartInfo ffprobeStartInfo = new("ffprobe", ["-hide_banner", "-of", "default=nw=1", "-select_streams", "v:0", "-show_entries", "stream=width,height", path]) {
-				RedirectStandardOutput = true,
-				RedirectStandardError = true
+			ProcessStartInfo ffprobeStartInfo = new("ffprobe", ["-hide_banner", "-loglevel", "error", "-of", "default=nw=1", "-select_streams", "v:0", "-show_entries", "stream=width,height", path]) {
+				RedirectStandardOutput = true
 			};
 			Process process = Process.Start(ffprobeStartInfo)!;
 			StreamReader ffprobeOut = process.StandardOutput;
